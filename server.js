@@ -36,7 +36,7 @@ app.post('/api/login', async (req, res) => {
     }
     res.json({ status: 'error', error: 'Invalid username/password' });
 });
-app.post('/api/orders', validateToken, async (req, res) => {
+app.post('/order', validateToken, async (req, res) => {
     const { sender_name, sender_phone, sender_address, receiver_name, receiver_phone, receiver_address, item_desc, item_weight } = req.body;
     const order_status = "Order picked up";
     try {
@@ -62,8 +62,10 @@ app.post('/api/orders', validateToken, async (req, res) => {
     }
     res.json({ status: 'ok' });
 });
-app.post('/api/tracking', async (req, res) => {
-    db.collection('orders').find({ "_id": new ObjectID(req.body.tracking_id) }).toArray((err, result) => {
+app.get('/order/:order_id', async (req, res) => {
+    const { order_id } = req.params;
+    console.log(JSON.stringify(order_id));
+    db.collection('orders').find({ "_id": new ObjectID(order_id)}).toArray((err, result) => {
         if (!err) {
             res.send(result);
         } else {
