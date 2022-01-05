@@ -65,7 +65,7 @@ app.post('/order', validateToken, async (req, res) => {
     }
   
 });
-app.get('/order/:order_id', async (req, res) => {
+app.get('/order/:order_id', validateToken, async (req, res) => {
     const { order_id } = req.params;
     console.log(JSON.stringify(order_id));
     db.collection('orders').find({ "_id": new ObjectID(order_id)}).toArray((err, result) => {
