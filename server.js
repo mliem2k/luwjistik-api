@@ -39,6 +39,8 @@ app.post('/api/login', async (req, res) => {
 app.post('/order', validateToken, async (req, res) => {
     const { sender_name, sender_phone, sender_address, receiver_name, receiver_phone, receiver_address, item_desc, item_weight } = req.body;
     const order_status = "Order picked up";
+    const d = new Date();
+    const updated_at = d.toISOString();
     try {
         const response = await Orders.create({
             sender_name,
@@ -49,7 +51,8 @@ app.post('/order', validateToken, async (req, res) => {
             receiver_address,
             item_desc,
             item_weight,
-            order_status
+            order_status,
+            updated_at
         });
         console.log('Orders created successfully, Tracking id: ', response._id);
     }

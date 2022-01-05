@@ -8,7 +8,8 @@ const OrderSchema = new mongoose.Schema({
     receiver_address: { type: String, required: true },
     item_desc: { type: String, required: true },
     item_weight: { type: String, required: true },
-    order_status: { type: String, required: true }
+    order_status: { type: String, required: true },
+    updated_at: { type: String, required: true }
 }, { collection: 'orders' });
 const model = mongoose.model('OrderSchema', OrderSchema);
 module.exports = model;
