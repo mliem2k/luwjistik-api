@@ -1,5 +1,6 @@
 require("dotenv").config()
 const mongoose = require('mongoose');
+var ObjectID = require('mongodb').ObjectID; 
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -15,6 +16,7 @@ mongoose.connect(MONGODB_URI, {
     useUnifiedTopology: true,
     useCreateIndex: true
 });
+var db = mongoose.connection;
 const app = express();
 app.use('/', express.static(path.join(__dirname, 'static')));
 app.use(bodyParser.json());
@@ -59,6 +61,16 @@ app.post('/api/orders', validateToken, async (req, res) => {
         throw error;
     }
     res.json({ status: 'ok' });
+});
+app.post('/api/tracking', async (req, res) => {
+    db.collection('orders').find({ "_id": new ObjectID(req.body.tracking_id) }).toArray((err, result) => {
+        if (!err) {
+            res.send(result);
+        } else {
+            console.log(err);
+        }
+
+    });
 });
 function validateToken(req, res, next) {
   
