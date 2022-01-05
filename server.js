@@ -54,7 +54,7 @@ app.post('/order', validateToken, async (req, res) => {
             order_status,
             updated_at
         });
-        console.log('Orders created successfully, Tracking id: ', response._id);
+        res.json({ "Orders created successfully, Order id:" : response._id });
     }
     catch (error) {
         if (error.code === 11000) {
@@ -63,7 +63,7 @@ app.post('/order', validateToken, async (req, res) => {
         }
         throw error;
     }
-    res.json({ status: 'ok' });
+  
 });
 app.get('/order/:order_id', async (req, res) => {
     const { order_id } = req.params;
